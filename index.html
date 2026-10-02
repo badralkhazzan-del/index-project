@@ -8,33 +8,20 @@
 
   QUICK EDITING GUIDE
   Everything you need to edit is in the <script> block at the bottom of this file,
-  in this order: CONFIG, CATEGORIES, PRODUCTS, NEW_PRODUCT, CONTENT, I18N.
+  in this order: CONFIG, CATEGORIES, PRODUCTS, CONTENT, I18N.
   Use your editor's search (Ctrl+F / Cmd+F) to jump to each one.
 
-  1) REPLACE THE NEW PRODUCT PLACEHOLDER
-     - Search for:  === NEW PRODUCT: EDIT HERE ===
-     - Edit the NEW_PRODUCT object. Every text has an Indonesian (id) and English (en) version.
-         name ............ product name
-         tagline ......... one short sentence shown on the highlighted card
-         whatIsIt ........ "What is it?" section of the pop-up
-         howItIsMade ..... "How it is made" section
-         healthBenefits .. list of benefits (add or remove { id, en } lines)
-         price ........... number in Rupiah, e.g. 18000 (null shows "To be announced")
-         size ............ e.g. { id: "250 ml", en: "250 ml" }
-         available ....... true shows the "Order via WhatsApp" button, false shows "Coming soon"
-         art ............. illustration key (see list below), "mystery" is the placeholder bottle
-
-  2) ADD, EDIT OR REMOVE PRODUCTS
+  1) ADD, EDIT OR REMOVE PRODUCTS
      - Search for:  const PRODUCTS = [
      - Each product is one { ... } block. Copy a block to add a product, delete a block to remove it.
      - Fields: id (unique, no spaces), name {id,en}, category (a key from CATEGORIES),
        desc {id,en}, price (plain number in Rupiah, no dots), size {id,en},
        nutrition [ {id,en}, ... ], storage {id,en}, art (illustration key), featured (true/false).
      - Illustration keys: bottle-plain, bottle-choco, bottle-straw, bottle-aren, bottle-yogurt,
-       yogurt-cup, cheese, dodol, kerupuk, mystery
+       yogurt-cup, cheese, dodol, kerupuk
      - Need a new category? Add it to CATEGORIES (key + label) and use that key in the product.
 
-  3) CHANGE THE WHATSAPP NUMBER, PRICES AND COMPANY DETAILS
+  2) CHANGE THE WHATSAPP NUMBER, PRICES AND COMPANY DETAILS
      - Search for:  const CONFIG = {
      - whatsappNumber: international format, digits only, no "+" or spaces (e.g. 6281234567890).
        The current 6280000000000 is a FAKE placeholder.
@@ -774,25 +761,6 @@ button { cursor: pointer; }
 /* =============================================================================
    PRODUCTS
    ========================================================================== */
-.new-product {
-  position: relative; display: grid; gap: 0; overflow: hidden; margin-bottom: 36px;
-  border: 3px solid var(--line-strong); border-radius: var(--radius-lg);
-  background: var(--surface); box-shadow: 8px 8px 0 var(--butter);
-}
-@media (min-width: 760px) { .new-product { grid-template-columns: 0.8fr 1.2fr; } }
-.new-product .np-art { background: repeating-linear-gradient(135deg, var(--butter-soft) 0 18px, var(--surface-soft) 18px 36px); display: grid; place-items: center; padding: 24px; position: relative; }
-.new-product .np-art svg { width: min(220px, 70%); height: auto; }
-.new-product .np-body { padding: 24px 22px 26px; display: grid; gap: 10px; align-content: center; min-width: 0; }
-@media (min-width: 760px) { .new-product .np-body { padding: 32px 34px; } }
-.new-product h3 { font-size: clamp(1.45rem, 1.2rem + 1vw, 2rem); margin: 0; }
-.new-product .np-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.new-product p { margin: 0; color: var(--text-muted); }
-.new-product .np-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
-.ribbon {
-  position: absolute; top: 18px; left: -42px; z-index: 2; transform: rotate(-35deg);
-  background: var(--pink); color: #1F1F24; font-weight: 800; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 0.3rem 3rem; border-block: 2px solid var(--ink);
-}
 .sparkle { animation: twinkle 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 
 .product-toolbar { display: grid; gap: 14px; margin-bottom: 14px; }
@@ -873,8 +841,6 @@ dialog.modal[open] { animation: modalIn 0.28s cubic-bezier(.2,1.2,.4,1); }
 .modal-section p { margin: 0; color: var(--text-muted); }
 .nutri-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .nutri-list li { background: var(--green-soft); color: var(--text); border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.9rem; font-weight: 700; display: inline-flex; gap: 0.35rem; align-items: center; }
-.benefit-list { margin: 0; padding-left: 1.2rem; color: var(--text-muted); }
-.placeholder-text { font-style: italic; }
 .qty-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding-top: 12px; border-top: 1px dashed var(--border); }
 .stepper { display: inline-flex; align-items: center; border: 2px solid var(--border); border-radius: 999px; background: var(--surface); }
 .stepper button { width: 42px; height: 42px; border: 0; background: transparent; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; font-weight: 800; }
@@ -1786,7 +1752,7 @@ main:focus { outline: none; }
 <div class="drip drip--to-bg" aria-hidden="true"><svg viewBox="0 0 1440 70" preserveAspectRatio="xMidYMin slice" focusable="false"><use href="#drip-b"/></svg></div>
 
 <!-- =============================================================================
-     6. PRODUCTS (data comes from PRODUCTS and NEW_PRODUCT in the script)
+     6. PRODUCTS (data comes from PRODUCTS in the script)
      ========================================================================== -->
 <section class="section" id="products" aria-labelledby="products-title">
   <div class="container">
@@ -1796,8 +1762,6 @@ main:focus { outline: none; }
       <p class="lead" data-i18n="products.lead">Semua produk dibuat dari susu sapi kami sendiri. Pilih produk untuk melihat detail, lalu pesan lewat WhatsApp.</p>
     </div>
 
-    <!-- Highlighted "Coming Soon" slot for the new product (edit NEW_PRODUCT in the script) -->
-    <article class="new-product" id="new-product" aria-labelledby="np-title" data-reveal></article>
 
     <div class="product-toolbar">
       <div class="filter-group" role="group" id="product-filters" data-i18n-attr="aria-label:products.filterLabel"></div>
@@ -2469,7 +2433,7 @@ const CATEGORIES = [
 /* =============================================================================
    3. PRODUCTS: edit, add or remove products here.
       art keys: bottle-plain, bottle-choco, bottle-straw, bottle-aren,
-                bottle-yogurt, yogurt-cup, cheese, dodol, kerupuk, mystery
+                bottle-yogurt, yogurt-cup, cheese, dodol, kerupuk
    ========================================================================== */
 const PRODUCTS = [
   {
@@ -2613,35 +2577,7 @@ const PRODUCTS = [
 ];
 
 /* =============================================================================
-   4. NEW PRODUCT SLOT
-   // === NEW PRODUCT: EDIT HERE ===
-   Replace the placeholder texts below with the real product details.
-   - price: a number in Rupiah (e.g. 18000) or null to show "To be announced"
-   - available: true shows the "Order via WhatsApp" button
-   - art: keep 'mystery' or pick a product illustration key (see PRODUCTS)
-   ========================================================================== */
-const NEW_PRODUCT = {
-  id: 'produk-baru',
-  available: false,
-  art: 'mystery',
-  badge: { id: 'Inovasi Baru', en: 'New Innovation' },
-  name: { id: 'Produk Baru - Segera Hadir', en: 'New Product - Coming Soon' },
-  tagline: { id: 'Inovasi terbaru dari susu segar Lembah Susu sedang kami siapkan. Nantikan kejutannya di sini!',
-             en: 'Our newest fresh-milk innovation is on its way. Watch this space!' },
-  whatIsIt: { id: 'Deskripsi produk akan diumumkan segera.', en: 'The product description will be announced soon.' },
-  howItIsMade: { id: 'Cerita proses pembuatannya akan kami bagikan di sini.', en: 'We will share how it is made right here.' },
-  healthBenefits: [
-    { id: 'Manfaat kesehatan pertama akan ditulis di sini.', en: 'The first health benefit will be written here.' },
-    { id: 'Manfaat kesehatan kedua akan ditulis di sini.', en: 'The second health benefit will be written here.' }
-  ],
-  price: null,
-  size: { id: 'Segera diumumkan', en: 'To be announced' },
-  isPlaceholder: true // set to false once real details are filled in (removes the "placeholder" note)
-};
-// === END NEW PRODUCT ===
-
-/* =============================================================================
-   5. CONTENT: longer bilingual content (id = Indonesian, en = English)
+   4. CONTENT: longer bilingual content (id = Indonesian, en = English)
    ========================================================================== */
 const CONTENT = {
   mission: [
@@ -2950,7 +2886,7 @@ const CONTENT = {
 };
 
 /* =============================================================================
-   6. I18N: interface texts. id = Bahasa Indonesia (default), en = English.
+   5. I18N: interface texts. id = Bahasa Indonesia (default), en = English.
       {name} placeholders are filled in by the script.
       Global placeholders: {company}, {cows}, {since}, {years}
    ========================================================================== */
@@ -3081,17 +3017,6 @@ const I18N = {
     'products.waAddress': 'Alamat pengiriman:',
     'products.waThanks': 'Terima kasih!',
 
-    'np.ribbon': 'Segera',
-    'np.whatIsIt': 'Apa itu?',
-    'np.howMade': 'Bagaimana dibuat?',
-    'np.benefits': 'Manfaat kesehatan',
-    'np.price': 'Harga',
-    'np.tba': 'Segera diumumkan',
-    'np.comingSoon': 'Segera hadir',
-    'np.notify': 'Kabari saya via WhatsApp',
-    'np.notifyMsg': 'Halo {company}, saya ingin dikabari saat produk baru Lembah Susu tersedia. Terima kasih!',
-    'np.more': 'Intip detailnya',
-    'np.placeholderNote': 'Bagian ini masih placeholder dan akan diisi saat produk diluncurkan.',
 
     'visit.eyebrow': 'Rencanakan Kunjungan',
     'visit.title': 'Hitung tiket dan pesan kunjungan Anda',
@@ -3368,17 +3293,6 @@ const I18N = {
     'products.waAddress': 'Delivery address:',
     'products.waThanks': 'Thank you!',
 
-    'np.ribbon': 'Soon',
-    'np.whatIsIt': 'What is it?',
-    'np.howMade': 'How is it made?',
-    'np.benefits': 'Health benefits',
-    'np.price': 'Price',
-    'np.tba': 'To be announced',
-    'np.comingSoon': 'Coming soon',
-    'np.notify': 'Notify me on WhatsApp',
-    'np.notifyMsg': 'Hello {company}, please let me know when the new Lembah Susu product is available. Thank you!',
-    'np.more': 'Take a peek',
-    'np.placeholderNote': 'This section is a placeholder and will be filled in when the product launches.',
 
     'visit.eyebrow': 'Plan Your Visit',
     'visit.title': 'Calculate tickets and book your visit',
@@ -3532,7 +3446,7 @@ const I18N = {
 
 
 /* =============================================================================
-   7. APP STATE AND HELPERS (no edits needed below this line for content)
+   6. APP STATE AND HELPERS (no edits needed below this line for content)
    ========================================================================== */
 const state = {
   lang: 'id',
@@ -3646,7 +3560,7 @@ function restartAnimation(el, cls) {
 }
 
 /* =============================================================================
-   8. ILLUSTRATIONS (inline SVG, generated)
+   7. ILLUSTRATIONS (inline SVG, generated)
    ========================================================================== */
 const SVG_ATTRS = 'class="product-svg" aria-hidden="true" focusable="false"';
 const BOTTLE_BODY = 'M47 22h26v18c0 8 19 13 19 30v74c0 9-6 14-14 14H42c-8 0-14-5-14-14V70c0-17 19-22 19-30z';
@@ -3737,19 +3651,6 @@ function yogurtCupSVG(attrs) {
     '<path d="M100 40c10-12 24-10 28-2-8 2-18 6-24 10z" fill="#F2A7A0" stroke="' + INK + '" stroke-width="3" stroke-linejoin="round"/></svg>';
 }
 
-function mysterySVG(attrs) {
-  const body = 'M57 22h26v18c0 8 19 13 19 30v74c0 9-6 14-14 14H52c-8 0-14-5-14-14V70c0-17 19-22 19-30z';
-  const sp = (x, y, s, c, d) => '<path class="sparkle" style="animation-delay:' + d + 's" d="M' + x + ' ' + (y - s) + 'l' + (s * 0.3) + ' ' + (s * 0.7) + ' ' + (s * 0.7) + ' ' + (s * 0.3) + '-' + (s * 0.7) + ' ' + (s * 0.3) + '-' + (s * 0.3) + ' ' + (s * 0.7) + '-' + (s * 0.3) + '-' + (s * 0.7) + '-' + (s * 0.7) + '-' + (s * 0.3) + ' ' + (s * 0.7) + '-' + (s * 0.3) + 'z" fill="' + c + '" stroke="' + INK + '" stroke-width="1.5"/>';
-  return '<svg ' + attrs + ' viewBox="0 0 140 170">' +
-    '<circle cx="70" cy="92" r="62" fill="#F4C95D" opacity=".32"/><circle cx="70" cy="92" r="44" fill="#FFFDF8" opacity=".35"/>' +
-    '<ellipse cx="70" cy="161" rx="40" ry="6" fill="' + INK + '" opacity=".14"/>' +
-    '<path d="' + body + '" fill="#2B2B33" stroke="' + INK + '" stroke-width="3.5" stroke-linejoin="round"/>' +
-    '<rect x="53" y="9" width="34" height="16" rx="5" fill="#F2A7A0" stroke="' + INK + '" stroke-width="3.5"/>' +
-    '<path d="M50 80v52" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".25"/>' +
-    '<text x="70" y="128" text-anchor="middle" font-family="Fredoka, \'Arial Rounded MT Bold\', sans-serif" font-weight="700" font-size="58" fill="#F4C95D">?</text>' +
-    sp(18, 48, 12, '#F4C95D', 0) + sp(122, 36, 10, '#FFFDF8', 0.6) + sp(124, 110, 13, '#F2A7A0', 1.2) + sp(14, 120, 9, '#BFE3F5', 1.8) + '</svg>';
-}
-
 function productArt(key, attrs) {
   const a = attrs || SVG_ATTRS;
   if (BOTTLES[key]) return bottleSVG(BOTTLES[key], a);
@@ -3758,7 +3659,7 @@ function productArt(key, attrs) {
     case 'dodol': return dodolSVG(a);
     case 'kerupuk': return kerupukSVG(a);
     case 'yogurt-cup': return yogurtCupSVG(a);
-    default: return mysterySVG(a);
+    default: return bottleSVG(BOTTLES['bottle-plain'], a);
   }
 }
 
@@ -3956,7 +3857,7 @@ function badgeSVG(key, cls) {
 }
 
 /* =============================================================================
-   9. TRANSLATION ENGINE, THEME, NAVIGATION
+   8. TRANSLATION ENGINE, THEME, NAVIGATION
    ========================================================================== */
 function applyStaticI18n() {
   document.documentElement.lang = state.lang;
@@ -4054,7 +3955,7 @@ function initNav() {
 }
 
 /* =============================================================================
-   10. SCROLL EFFECTS: reveal, counters, milk glass, splash
+   9. SCROLL EFFECTS: reveal, counters, milk glass, splash
    ========================================================================== */
 function initReveal() {
   if (reduceMotion() || !('IntersectionObserver' in window)) return;
@@ -4155,7 +4056,7 @@ function initSplash() {
 }
 
 /* =============================================================================
-   11. ABOUT: mission, values, team
+   10. ABOUT: mission, values, team
    ========================================================================== */
 function renderAbout() {
   $('#mission-list').innerHTML = CONTENT.mission.map((m) => '<li>' + esc(L(m)) + '</li>').join('');
@@ -4173,7 +4074,7 @@ function renderAbout() {
 }
 
 /* =============================================================================
-   12. FROM COW TO CUP JOURNEY (tabs + prev/next + milk-bottle progress)
+   11. FROM COW TO CUP JOURNEY (tabs + prev/next + milk-bottle progress)
    ========================================================================== */
 function renderJourneyTabs() {
   const total = CONTENT.journey.length;
@@ -4267,7 +4168,7 @@ function initJourney() {
 function renderJourney() { renderJourneyTabs(); renderJourneyPanel(false); }
 
 /* =============================================================================
-   13. MILK MASTER QUIZ
+   12. MILK MASTER QUIZ
    ========================================================================== */
 function badgeFor(score) {
   return CONTENT.quizBadges.find((b) => score >= b.min && score <= b.max) || CONTENT.quizBadges[0];
@@ -4385,7 +4286,7 @@ function initQuiz() {
 }
 
 /* =============================================================================
-   14. PRODUCTS: filters, search, cards, new-product slot, modal
+   13. PRODUCTS: filters, search, cards, modal
    ========================================================================== */
 const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
 function categoryLabel(key) {
@@ -4432,21 +4333,6 @@ function renderProducts() {
   $('#product-empty-text').textContent = state.search ? t('products.emptyText', { q: state.search }) : '';
   $('#search-clear').hidden = !state.search;
 }
-function renderNewProduct() {
-  const np = NEW_PRODUCT;
-  const priceText = np.price != null ? fmtRp(np.price) : t('np.tba');
-  const action = np.available
-    ? '<button type="button" class="btn btn-secondary" data-open-new>' + esc(t('products.order')) + '</button>'
-    : '<a class="btn btn-secondary btn-wa" href="' + esc(waLink(t('np.notifyMsg'))) + '" target="_blank" rel="noopener noreferrer">' + icon('i-whatsapp') + esc(t('np.notify')) + '</a>';
-  $('#new-product').innerHTML =
-    (np.available ? '' : '<div class="ribbon" aria-hidden="true">' + esc(t('np.ribbon')) + '</div>') +
-    '<div class="np-art">' + productArt(np.art) + '</div>' +
-    '<div class="np-body"><div class="np-tags"><span class="pill">' + icon('i-star') + esc(L(np.badge)) + '</span>' +
-    (np.available ? '' : '<span class="pill pill--pink">' + esc(t('np.comingSoon')) + '</span>') + '</div>' +
-    '<h3 id="np-title">' + esc(L(np.name)) + '</h3><p>' + esc(L(np.tagline)) + '</p>' +
-    '<p class="pc-meta">' + esc(t('np.price')) + ': ' + esc(priceText) + '</p>' +
-    '<div class="np-actions"><button type="button" class="btn btn-primary" data-open-new>' + icon('i-eye') + esc(t('np.more')) + '</button>' + action + '</div></div>';
-}
 
 /* Product modal */
 let modalTrigger = null;
@@ -4470,10 +4356,6 @@ function qtyRow(price, qty) {
 }
 function modalProduct() {
   if (!state.modal) return null;
-  if (state.modal.type === 'new') {
-    const np = NEW_PRODUCT;
-    return { id: np.id, name: np.name, size: np.size, price: np.price, art: np.art };
-  }
   return PRODUCTS.find((p) => p.id === state.modal.id) || null;
 }
 function renderModal() {
@@ -4481,23 +4363,7 @@ function renderModal() {
   const box = $('#modal-content');
   if (!m) { box.innerHTML = ''; return; }
   $('#modal-close').setAttribute('aria-label', t('a11y.close'));
-  if (m.type === 'new') {
-    const np = NEW_PRODUCT;
-    const placeholder = np.isPlaceholder ? ' placeholder-text' : '';
-    const canOrder = np.available && np.price != null;
-    box.innerHTML = '<div class="modal-grid"><div class="modal-art" style="background:repeating-linear-gradient(135deg,var(--butter-soft) 0 18px,var(--surface-soft) 18px 36px)">' + productArt(np.art) + '</div>' +
-      '<div class="modal-body"><div class="np-tags" style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill">' + icon('i-star') + esc(L(np.badge)) + '</span>' + (np.available ? '' : '<span class="pill pill--pink">' + esc(t('np.comingSoon')) + '</span>') + '</div>' +
-      '<h2 id="modal-title">' + esc(L(np.name)) + '</h2>' +
-      (np.isPlaceholder ? '<p class="notice notice--warn" style="margin:0">' + icon('i-info') + '<span>' + esc(t('np.placeholderNote')) + '</span></p>' : '') +
-      '<div class="modal-section"><h3>' + icon('i-info') + esc(t('np.whatIsIt')) + '</h3><p class="' + placeholder + '">' + esc(L(np.whatIsIt)) + '</p></div>' +
-      '<div class="modal-section"><h3>' + icon('i-refresh') + esc(t('np.howMade')) + '</h3><p class="' + placeholder + '">' + esc(L(np.howItIsMade)) + '</p></div>' +
-      '<div class="modal-section"><h3>' + icon('i-heart') + esc(t('np.benefits')) + '</h3><ul class="benefit-list' + placeholder + '">' + np.healthBenefits.map((b) => '<li>' + esc(L(b)) + '</li>').join('') + '</ul></div>' +
-      '<div class="modal-section"><h3>' + icon('i-tag') + esc(t('np.price')) + '</h3><div class="modal-price-row"><span class="price">' + esc(np.price != null ? fmtRp(np.price) : t('np.tba')) + '</span><span class="pc-meta">' + esc(t('products.size')) + ': ' + esc(L(np.size)) + '</span></div></div>' +
-      (canOrder
-        ? qtyRow(np.price, m.qty) + '<a class="btn btn-primary btn-wa" id="modal-wa" href="#" target="_blank" rel="noopener noreferrer">' + icon('i-whatsapp') + esc(t('products.order')) + '</a><p class="modal-note">' + esc(t('products.waNote')) + '</p>'
-        : '<a class="btn btn-primary btn-wa" href="' + esc(waLink(t('np.notifyMsg'))) + '" target="_blank" rel="noopener noreferrer">' + icon('i-whatsapp') + esc(t('np.notify')) + '</a><p class="modal-note">' + esc(t('products.waNote')) + '</p>') +
-      '</div></div>';
-  } else {
+  {
     const p = modalProduct();
     if (!p) { box.innerHTML = ''; return; }
     box.innerHTML = '<div class="modal-grid"><div class="modal-art">' + blob(2) + productArt(p.art) + '</div>' +
@@ -4571,10 +4437,6 @@ function initProducts() {
     const b = e.target.closest('[data-product]');
     if (b) openModal({ type: 'product', id: b.dataset.product }, b);
   });
-  $('#new-product').addEventListener('click', (e) => {
-    const b = e.target.closest('[data-open-new]');
-    if (b) openModal({ type: 'new' }, b);
-  });
 
   // Modal: close button, backdrop click, quantity
   const dlg = $('#product-modal');
@@ -4605,7 +4467,7 @@ function initProducts() {
 }
 
 /* =============================================================================
-   15. VISIT PLANNER AND TICKET CALCULATOR
+   14. VISIT PLANNER AND TICKET CALCULATOR
    ========================================================================== */
 function intVal(id) {
   const v = parseInt($('#' + id).value, 10);
@@ -4753,7 +4615,7 @@ function initVisit() {
 }
 
 /* =============================================================================
-   16. RANCH MAP
+   15. RANCH MAP
    ========================================================================== */
 function mapArea(key) { return CONTENT.mapAreas.find((a) => a.key === key); }
 const MAP_ICON = { entrance: 'entrance', barn: 'barn', milking: 'milking', feeding: 'feeding', calf: 'calf', processing: 'pasteurization', shop: 'shop', picnic: 'picnic' };
@@ -4822,7 +4684,7 @@ function initMap() {
 }
 
 /* =============================================================================
-   17. BUSINESS IMPACT CHART (simulated data, drawn with inline SVG)
+   16. BUSINESS IMPACT CHART (simulated data, drawn with inline SVG)
    ========================================================================== */
 function impactMetric(key) { return CONTENT.impact.metrics.find((m) => m.key === key) || CONTENT.impact.metrics[0]; }
 const avg = (arr) => arr.reduce((s, v) => s + v, 0) / (arr.length || 1);
@@ -4973,7 +4835,7 @@ function initImpact() {
 }
 
 /* =============================================================================
-   18. TESTIMONIALS CAROUSEL (autoplay, pause on hover/focus, manual controls)
+   17. TESTIMONIALS CAROUSEL (autoplay, pause on hover/focus, manual controls)
    ========================================================================== */
 let testiTimer = null;
 function renderTestimonials() {
@@ -5050,7 +4912,7 @@ function initTestimonials() {
 }
 
 /* =============================================================================
-   19. NEWS, FAQ
+   18. NEWS, FAQ
    ========================================================================== */
 function newsDate(n) {
   if (!n.endDate) return fmtDate(n.date, { day: 'numeric', month: 'long', year: 'numeric' });
@@ -5120,7 +4982,7 @@ function initFaq() {
 }
 
 /* =============================================================================
-   20. CONTACT FORM (client-side validation, no real sending)
+   19. CONTACT FORM (client-side validation, no real sending)
    ========================================================================== */
 const CONTACT_FIELDS = ['name', 'email', 'phone', 'message'];
 function contactError(field) {
@@ -5192,7 +5054,7 @@ function initContact() {
 }
 
 /* =============================================================================
-   21. SOCIAL LINKS, MAPS LINK
+   20. SOCIAL LINKS, MAPS LINK
    ========================================================================== */
 function renderSocials() {
   const html = CONFIG.social.map((s) => {
@@ -5216,12 +5078,12 @@ function initSocials() {
 }
 
 /* =============================================================================
-   22. INIT
+   21. INIT
    ========================================================================== */
 function renderAll() {
   const parts = [
     renderStats, renderAbout, renderJourney, renderQuizBadges, () => renderQuiz(null),
-    renderFilters, renderNewProduct, renderProducts, renderModal,
+    renderFilters, renderProducts, renderModal,
     renderActivities, renderHours, updateVisit, renderMap, renderImpact,
     renderTestimonials, renderNews, renderFaq, renderContactErrors, renderSocials
   ];
